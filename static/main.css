@@ -1,0 +1,10 @@
+@import "colors.css";
+
+html {
+    margin: 0;
+    color: var(--white);
+}
+
+body {
+    background-color: var(--main);
+}
