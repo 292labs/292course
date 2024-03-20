@@ -87,7 +87,9 @@ main {
     display: flex;
     flex-direction: row;
     width: 100%;
-
+    gap: 1.5rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .course-card {
@@ -103,7 +105,8 @@ main {
 .course-text {
     display: flex;
     flex-direction: row;
-    flex-grow: 10;
+    /*flex-grow: 10;*/
+    counter-increment: gallery-cell;
     justify-content: space-between;
     align-items: flex-end;
 }
