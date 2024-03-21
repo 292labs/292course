@@ -15,14 +15,14 @@ def login_page():
 
     if request.method == "POST":
         response = api.Login().get(request_=request)
-
-        # if response["status"] == "success":
-        #     token = response["token"]
-        #     resp = make_response(render_template("main.html"))
-        #     resp.set_cookie("token", token, secure=True, httponly=True)
-        #     return resp
-        # else:
-        #     return render_template("login.html")
+        print(response)
+        if response["status"] == "success":
+            token = response["token"]
+            resp = make_response(render_template("main.html"))
+            resp.set_cookie("token", token, secure=True, httponly=True)
+            return resp
+        else:
+            return render_template("login.html")
         
     return render_template("login.html")
 
@@ -32,13 +32,13 @@ def signup_page():
     if request.method == "POST":
         response = api.Signup().post()
 
-        # if response["status"] == "success":
-        #     token = response["token"]
-        #     resp = make_response(render_template("main.html"))
-        #     resp.set_cookie("token", token, secure=True, httponly=True)
-        #     return resp
-        # else:
-        #     return render_template("signup.html")
+        if response["status"] == "success":
+             token = response["token"]
+             resp = make_response(render_template("main.html"))
+             resp.set_cookie("token", token, secure=True, httponly=True)
+             return resp
+        else:
+             return render_template("signup.html")
 
 
     return render_template("signup.html")
