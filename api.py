@@ -1,4 +1,4 @@
-from main import app
+from __main__ import app
 from flask import request
 from flask_restful import Resource, Api
 from utils.auth import create_access_token, get_current_user, create_stream_token
@@ -9,18 +9,19 @@ from utils.security import generate_salt, hash_password, verify_password, hash_t
 
 api = Api(app)
 
-class Login(Resource):
-    def get(self, request_ = None):
 
-        if request_ is None: 
+class Login(Resource):
+    def get(self, request_=None):
+
+        if request_ is None:
             request_ = request
-        
+
         email = request_.form["email"]
         password = request_.form["password"]
         user = get_user(email)
         if user is None:
             return {"status": "failed", "message": "Invalid credentials"}
-        
+
         salt = user[6]
         hash = user[2]
 
@@ -30,10 +31,11 @@ class Login(Resource):
         else:
             return {"status": "failed", "message": "Invalid credentials"}
 
-class Signup(Resource):   
-    def post(self, request_ = None):
 
-        if request_ is None: 
+class Signup(Resource):
+    def post(self, request_=None):
+
+        if request_ is None:
             request_ = request
 
         email = request_.form["email"]
@@ -41,104 +43,156 @@ class Signup(Resource):
         birthdate = request_.form["birthdate"]
         name = request_.form["name"]
         last_name = request_.form["last_name"]
-            
-        if user_exists(email): 
+
+        if user_exists(email):
             return {"status": "failed", "message": "User already exists"}
-            
+
         salt = generate_salt()
         hash = hash_password(password, salt)
         save_user(email, hash, salt, birthdate, name=[name, last_name])
 
         token = create_access_token({"email": email})
 
-        return {"status": "success", "token": token, "token_type": "bearer"} 
-    
-class Refresh(Resource):   
-    def post(self, request_ = None):
-        if request_ is None: 
+        return {"status": "success", "token": token, "token_type": "bearer"}
+
+
+class Refresh(Resource):
+    def post(self, request_=None, token_=None):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        if token is None:
-           return {"status": "failed", "message": "Invalid token"}
-        delete_token(hash_token(token))
-        user = get_current_user(token) # returns user data from database
-        token = create_access_token({"email": user["email"]})
-        return {"status": "success", "token": token}
+        try:
+            token = request_.form["token"]
+        except:
+            token = token_
 
-class TokenLogin(Resource): 
-    def post(self, request_ = None):
-        if request_ is None: 
-            request_ = request
-
-        token = request_.form["token"]
-        
         if token is None:
             return {"status": "failed", "message": "Invalid token"}
-    
-        user = get_current_user(token)
-    
+        user = get_current_user(token)  # returns user data from database
+
         if user is None:
             return {"status": "failed", "message": "Invalid token"}
-       
+        delete_token(hash_token(token))
+        token = create_access_token({"email": user[5]})
+        return {"status": "success", "token": token}
+
+
+class TokenLogin(Resource):
+    def post(self, request_=None, token_=None):
+        if request_ is None:
+            request_ = request
+
+        try:
+            token = request_.form["token"]
+        except:
+            token = token_
+
+        if token is None:
+            return {"status": "failed", "message": "Invalid token"}
+
+        user = get_current_user(token)
+
+        if user is None:
+            return {"status": "failed", "message": "Invalid token"}
+
         return {"status": "success", "message": user}
-        
+
+
 class Courses(Resource):
     def get(self):
         cources = get_courses()
         return {"status": "success", "message": cources}
 
-    def post(self, request_ = None):
-        if request_ is None: 
+    def post(self, request_=None,
+             data={
+                 "token": None,
+                 "name": None,
+                 "description": None,
+                 "tech_stack": None,
+                 "price": None,
+                 "author": None,
+                 "lessons_amount": None
+             }):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        name = request_.form["name"]
-        description = request_.form["description"]
-        tech_stack = request_.form["tech_stack"]
-        price = request_.form["price"]
-        author = request_.form["teacher_id"]
-        lessons_amount = request_.form["lessons_amount"]
-        
+        try:
+            token = request_.form["token"]
+            name = request_.form["name"]
+            description = request_.form["description"]
+            tech_stack = request_.form["tech_stack"]
+            price = request_.form["price"]
+            author = request_.form["teacher_id"]
+            lessons_amount = request_.form["lessons_amount"]
+        except:
+            token = data["token"]
+            name = data["name"]
+            description = data["description"]
+            tech_stack = data["tech_stack"]
+            price = data["price"]
+            author = data["teacher_id"]
+            lessons_amount = data["lessons_amount"]
+
         user = get_current_user(token)
 
         if user[3] in [2, 3]:
-            save_course(name, description, tech_stack, author, price, lessons_amount)
+            save_course(name, description, tech_stack,
+                        author, price, lessons_amount)
             return {"status": "success", "message": "Course created"}
         else:
-            return {"status": "failed", "message": "Invalid permissions"}   
+            return {"status": "failed", "message": "Invalid permissions"}
+
 
 class Lessons(Resource):
-    def get(self, request_ = None):
-        if request_ is None: 
+    def get(self, request_=None, data={"token": None, "course_id": None}):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        course_id = request_.form["course_id"]
+        try:
+            token = request_.form["token"]
+            course_id = request_.form["course_id"]
+        except:
+            token = data["token"]
+            course_id = data["course_id"]
 
         if token is None:
             return {"status": "failed", "message": "Invalid token"}
-        
+
         user = get_current_user(token)
-        
-        if course_id not in user[4]:
+
+        if int(course_id) not in user[4]:
             return {"status": "failed", "message": "Invalid course id or lack of permissions"}
-        
+
         lessons = get_lessons(course_id)
 
         return {"status": "success", "message": lessons}
-    
-    def post(self, request_ = None):
-        if request_ is None: 
+
+    def post(self, request_=None, data={
+        "token": None,
+        "course_id": None,
+        "name": None,
+        "description": None,
+        "author": None,
+        "content": None
+    }):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        course_id = request_.form["course_id"]
-        name = request_.form["name"]
-        description = request_.form["description"]
-        author = request_.form["author_id"]
-        content = request_.form["content"]
-        
+        try:
+            token = request_.form["token"]
+            course_id = request_.form["course_id"]
+            name = request_.form["name"]
+            description = request_.form["description"]
+            author = request_.form["author_id"]
+            content = request_.form["content"]
+        except:
+            token = data["token"]
+            course_id = data["course_id"]
+            name = data["name"]
+            description = data["description"]
+            author = data["author_id"]
+            content = data["content"]
+
         user = get_current_user(token)
 
         if user[3] in [2, 3]:
@@ -146,36 +200,51 @@ class Lessons(Resource):
             return {"status": "success", "message": "Lesson created"}
         else:
             return {"status": "failed", "message": "Invalid permissions"}
-        
+
+
 class Advancments(Resource):
-    def get(self, request_ = None):
-        if request_ is None: 
+    def get(self, request_=None, data={"token": None, "amount": None}):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        course = request_.form["course_id"]
-        amount = request_.form["amount"] # all, anlocked, locked
+        try:
+            token = request_.form["token"]
+            amount = request_.form["amount"]  # all, anlocked, locked
+        except:
+            token = data["token"]
+            amount = data["amount"]
 
         if token is None:
             return {"status": "failed", "message": "Invalid token"}
-        
+
+
         user = get_current_user(token)
 
         if amount not in ["all", "unlocked", "locked"]:
             return {"status": "failed", "message": "Invalid amount"}
-        
+
         advancments = get_advancements(user[5], amount)
         return {"status": "success", "message": advancments}
-    
-    def post(self, request_ = None):
-        if request_ is None: 
+
+    def post(self, request_=None, data={
+        "token": None,
+        "course_id": None,
+        "description": None,
+            "name": None}):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        course_id = request_.form["course_id"]
-        description = request_.form["description"]
-        name = request_.form["name"]
-        
+        try:
+            token = request_.form["token"]
+            course_id = request_.form["course_id"]
+            description = request_.form["description"]
+            name = request_.form["name"]
+        except:
+            token = data["token"]
+            course_id = data["course_id"]
+            description = data["description"]
+            name = data["name"]
+
         user = get_current_user(token)
 
         if user[3] in [2, 3]:
@@ -184,15 +253,22 @@ class Advancments(Resource):
         else:
             return {"status": "failed", "message": "Invalid permissions"}
 
+
 class StreamTokens(Resource):
-    def post(self, request_ = None):
-        if request_ is None: 
+    def post(self, request_=None, data={"course": None, "token": None, "author": None}):
+        if request_ is None:
             request_ = request
 
-        course = request_.form["course_id"]
-        token = request_.form["token"]
-        author = request_.form["author_id"]
-        
+        try:
+            course = request_.form["course_id"]
+            token = request_.form["token"]
+            author = request_.form["author_id"]
+        except:
+            course = data["course_id"]
+            token = data["token"]
+            author = data["author_id"]
+
+
         user = get_current_user(token)
 
         if user[3] in [2, 3]:
@@ -201,14 +277,18 @@ class StreamTokens(Resource):
             return {"status": "success", "message": token}
         else:
             return {"status": "failed", "message": "Invalid permissions"}
-        
-    def get(self, request_ = None):
-        if request_ is None: 
+
+    def get(self, request_=None, data={"course": None, "token": None}):
+        if request_ is None:
             request_ = request
 
-        token = request_.form["token"]
-        course = request_.form["course_id"]
-        
+        try:
+            token = request_.form["token"]
+            course = request_.form["course_id"]
+        except:
+            token = data["token"]
+            course = data["course"]
+
         user = get_current_user(token)
 
         if user[3] in [2, 3] or course not in user[4]:
@@ -217,17 +297,22 @@ class StreamTokens(Resource):
         else:
             return {"status": "failed", "message": "Invalid permissions"}
 
+
 class HomeWork(Resource):
-    def get(self, request_ = None):
-        if request_ is None: 
+    def get(self, request_=None, token_=None):
+        if request_ is None:
             request_ = request
-        
-        token = request_.form["token"]
+
+        try:
+            token = request_.form["token"]
+        except:
+            token = token_
 
         user = get_current_user(token)
 
         if user is None:
             return {"status": "failed", "message": "Invalid token"}
+        
         try:
             user_courses = user[4]
             all_lessons = []
@@ -244,6 +329,7 @@ class HomeWork(Resource):
         except:
 
             return {"status": "failed", "message": "Invalid token"}
+
 
 api.add_resource(Login, "/api/v1/auth/login")
 """
@@ -375,7 +461,6 @@ Endpoint: /api/v1/user/advancments
 Method: GET, POST
 Data Received (GET):
 - token (string): The access token
-- course (string): The ID of the course
 - amount (string): The amount of advancements to retrieve ("all", "unlocked", "locked")
 
 Data Received (POST):
@@ -436,4 +521,3 @@ Possible Responses:
     - status: "failed"
     - message: "Invalid token"
 """
-

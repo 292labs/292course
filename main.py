@@ -20,6 +20,7 @@ def login_page():
             token = response["token"]
             resp = make_response(render_template("main.html"))
             resp.set_cookie("token", token, secure=True, httponly=True)
+
             return resp
         else:
             return render_template("login.html")

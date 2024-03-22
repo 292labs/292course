@@ -52,10 +52,10 @@ def get_courses():
     return cur.fetchall()
 
 def get_lessons(course_id):
-    cur.execute("""SELECT * FROM "Lessons" WHERE course_id = %s""", [course_id])
+    cur.execute("""SELECT * FROM "Lessons" WHERE course_id = %s""", [str(course_id)])
     return cur.fetchall()
 
-def get_advancements(email, amount):
+def get_advancements(email, amount="all"):
     user = get_user(email)
     user_achivments = user[7]
 
@@ -67,10 +67,19 @@ def get_advancements(email, amount):
         return user_achivments
 
     elif amount == "locked":
-        cur.execute("""SELECT * FROM "Advancements" WHERE course_id = %s""", [user[4]])
-        all_achivments = cur.fetchall()
-        achivments = [achivment for achivment in all_achivments if achivment[0] not in user_achivments]
-        return achivments
+        all_achivments = []
+        if user[4] is not list:
+            cur.execute("""SELECT * FROM "Advancements" WHERE course_id = %s""", [user[4][0]])
+            all_achivments += cur.fetchall()
+        else:
+            for course in user[4]:
+                cur.execute("""SELECT * FROM "Advancements" WHERE course_id = %s""", course[0])
+                all_achivments += cur.fetchall()
+        try:
+            achivments = [achivment for achivment in all_achivments if achivment[0] not in user_achivments]
+            return achivments
+        except:
+            return None
     
 def save_stream_token(token, course_id, user_id):
     cur.execute("""INSERT INTO "StreamToken" (token, user_id, course_id)
