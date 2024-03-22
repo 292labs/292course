@@ -18,10 +18,10 @@ def signup_page():
 
     return render_template("signup.html")
 
-@app.route("/cabinet")
-def cabinet_page():
+@app.route("/dashboard")
+def dashboard_page():
 
-    return render_template("cabinet.html")
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.debug = True
