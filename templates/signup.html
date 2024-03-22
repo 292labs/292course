@@ -4,10 +4,6 @@
     292course | Главная
 {% endblock %}
 
-{% block head %}
-    <link href="/static/auth.css" rel="stylesheet">
-{% endblock %}
-
 {% block header %}
     <div class="header-strip">
       <a href="/">
@@ -21,78 +17,68 @@
     <main>
         <h1>Signup</h1>
 
-        <div class="card">
-            <form method="post">
-              <div>
-                <label htmlFor="Name">Name:</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="//ИМЯ"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="Last_name">Last name:</label>
-                <input
-                  type="text"
-                  id="last_name"
-                  name="last_name"
-                  placeholder="//ФАМИЛИЯ"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="text"
-                  id="email"
-                  name="email"
-                  placeholder="//ПОЧТА"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="//ПАРОЛЬ"
-                  required
-                />
-              </div>
+        <form method="post">
+          <div>
+            <label htmlFor="Name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="Last_name">Last name:</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
 
-              <div>
-                <label htmlFor="password_confirmation">Confinrm Password:</label>
-                <input
-                  type="password"
-                  id="password_confirmation"
-                  placeholder="//ПОВТОРИТЬ ПАРОЛЬ"
-                  required
-                />
-              </div>
+          <div>
+            <label htmlFor="password_confirmation">Confinrm Password:</label>
+            <input
+              type="password"
+              id="password_confirmation"
+              required
+            />
+          </div>
 
-              <div>
-                <label htmlFor="birthdate">Birth date:</label>
-                <input
-                  type="date"
-                  id="birthdate"
-                  name="birthdate"
-                  placeholder="//ДАТА РОЖДЕНИЯ"
-                  required
-                />
-              </div>
+          <div>
+            <label htmlFor="birthdate">Birth date:</label>
+            <input
+              type="date"
+              id="birthdate"
+              name="birthdate"
+              required
+            />
+          </div>
 
-
-
-              <button type="submit">
-                Register
-              </button>
-            </form>
-        </div>
-
-
+   
+  
+          <button type="submit">
+            Register
+          </button>
+        </form>
     </main>
 {% endblock %}

@@ -55,6 +55,29 @@ a:visited {
     vertical-align: middle;
 }
 
+/* Header */
+
+.header-strip {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.links {
+    display: flex;
+    gap: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: Rubik, sans-serif;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.lins > a {
+    vertical-align: middle;
+}
+
 header {
     display: flex;
     flex-direction: column;
