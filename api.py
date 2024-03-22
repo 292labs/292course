@@ -48,7 +48,6 @@ class Signup(Resource):
         salt = generate_salt()
         hash = hash_password(password, salt)
         save_user(email, hash, salt, birthdate, name=[name, last_name])
-        user = get_user(email)
 
         token = create_access_token({"email": email})
 
