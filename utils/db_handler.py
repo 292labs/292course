@@ -60,14 +60,14 @@ def get_advancements(email, amount):
     user_achivments = user[7]
 
     if amount == "all":
-        cur.execute("""SELECT * FROM "Advancements" """)
+        cur.execute("""SELECT * FROM "Advancements" WHERE course_id = %s""", [user[4]])
         return cur.fetchall()
     
     elif amount == "unlocked":
         return user_achivments
 
     elif amount == "locked":
-        cur.execute("""SELECT * FROM "Advancements" """)
+        cur.execute("""SELECT * FROM "Advancements" WHERE course_id = %s""", [user[4]])
         all_achivments = cur.fetchall()
         achivments = [achivment for achivment in all_achivments if achivment[0] not in user_achivments]
         return achivments
@@ -79,6 +79,25 @@ def save_stream_token(token, course_id, user_id):
 
 def get_stream_tokens(course_id):
     cur.execute("""SELECT * FROM "StreamToken" WHERE course_id = %s""", [course_id])
+    return cur.fetchall()
+
+def save_course(name, description, tech_stack, teacher_id, price, lessons_amount):
+    cur.execute("""INSERT INTO "Course" (name, description, tech_stack, teacher_id, price, lessons)
+                VALUES (%s, %s, %s, %s, %s, %s);""", (name, description, tech_stack, teacher_id, price, lessons_amount))
+    conn.commit()
+
+def save_lesson(course_id, name, description, author_id, content):
+    cur.execute("""INSERT INTO "Lessons" (course_id, name, description, author_id, content)
+                VALUES (%s, %s, %s, %s, %s);""", (course_id, name, description, author_id, content))
+    conn.commit()
+
+def save_advancement(course_id, name, description):
+    cur.execute("""INSERT INTO "Advancements" (course_id, name, description)
+                VALUES (%s, %s, %s);""", (course_id, name, description))
+    conn.commit()
+
+def get_homework(lesson_id):
+    cur.execute("""SELECT * FROM "Homework" WHERE lesson_id = %s""", [lesson_id])
     return cur.fetchall()
 
 # utility functions
