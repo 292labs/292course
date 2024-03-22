@@ -1,0 +1,22 @@
+@import "colors.css";
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+label {
+    display: none;
+}
+
+input {
+    background-color: var(--main);
+    color: var(--white);
+    padding: 0.5rem;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    font-family: "Fira Mono", monospace;
+    font-weight: 500;
+}

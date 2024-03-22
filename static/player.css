@@ -1,0 +1,9 @@
+video {
+    width: 100%    !important;
+    height: auto   !important;
+    border-radius: 10px;
+}
+
+video::-webkit-media-controls-timeline {
+    display: none;
+}

@@ -2,8 +2,17 @@
 
 body {
     margin: 0;
-    color: var(--white);
     background-color: var(--main);
+    color: var(--white);
+}
+a {
+    text-decoration: none;
+}
+
+
+a:visited {
+    color: inherit;
+    text-decoration: none;
 }
 
 /* Header */
@@ -13,6 +22,21 @@ body {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.button {
+    color: var(--main);
+    background-color: var(--accent);
+    font-style: normal;
+    font-weight: bold;
+    padding: 0.2rem 0.7rem;
+    border-radius: 22px;
+    border: 0;
+}
+
+#login-button {
+    color: var(--main);
+    margin-left: 0.4rem;
 }
 
 .links {
@@ -92,14 +116,17 @@ main {
     box-sizing: border-box;
 }
 
+.card {
+    border: 2px solid var(--accent);
+    border-radius: 22px;
+    padding: 1rem;
+}
+
 .course-card {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     width: 100%;
-    border: 2px solid var(--accent);
-    border-radius: 22px;
-    padding: 1rem;
 }
 
 .course-text {
