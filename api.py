@@ -141,7 +141,7 @@ class StreamTokens(Resource):
         
         user = get_current_user(token)
 
-        if user[3] not in [2, 3]:
+        if user[3] in [2, 3]:
             token = create_stream_token()
             save_stream_token(token, course, author)
             return {"status": "success", "message": token}
@@ -157,7 +157,7 @@ class StreamTokens(Resource):
         
         user = get_current_user(token)
 
-        if user[3] not in [2, 3] or course not in user[4]:
+        if user[3] in [2, 3] or course not in user[4]:
             token = get_stream_tokens(course)
             return {"status": "success", "message": token}
         else:
