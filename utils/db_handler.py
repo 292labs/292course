@@ -51,6 +51,36 @@ def get_courses():
     cur.execute("""SELECT * FROM "Course" """)
     return cur.fetchall()
 
+def get_lessons(course_id):
+    cur.execute("""SELECT * FROM "Lessons" WHERE course_id = %s""", [course_id])
+    return cur.fetchall()
+
+def get_advancements(email, amount):
+    user = get_user(email)
+    user_achivments = user[7]
+
+    if amount == "all":
+        cur.execute("""SELECT * FROM "Advancements" """)
+        return cur.fetchall()
+    
+    elif amount == "unlocked":
+        return user_achivments
+
+    elif amount == "locked":
+        cur.execute("""SELECT * FROM "Advancements" """)
+        all_achivments = cur.fetchall()
+        achivments = [achivment for achivment in all_achivments if achivment[0] not in user_achivments]
+        return achivments
+    
+def save_stream_token(token, course_id, user_id):
+    cur.execute("""INSERT INTO "StreamToken" (token, user_id, course_id)
+                VALUES (%s, %s, %s);""", (token, user_id, course_id))
+    conn.commit()
+
+def get_stream_tokens(course_id):
+    cur.execute("""SELECT * FROM "StreamToken" WHERE course_id = %s""", [course_id])
+    return cur.fetchall()
+
 # utility functions
 
 def calculate_age(birthdate:str):
@@ -64,4 +94,5 @@ def calculate_age(birthdate:str):
         return today.year - born.year - 1
     else:
         return today.year - born.year
+
 

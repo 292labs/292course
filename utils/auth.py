@@ -1,9 +1,9 @@
-from http.client import HTTPException
 import os
-from datetime import timedelta, datetime, timezone
 import jwt
+import secrets
+from http.client import HTTPException
+from datetime import timedelta, datetime, timezone
 from jose import JWTError
-
 from utils.security import hash_token
 from utils.db_handler import save_token, get_user, find_token, delete_token
 
@@ -12,6 +12,7 @@ ALGORITHM = os.getenv("ALGORITHM")
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     # data {"email": "email"}
+    expires_delta = timedelta(hours=31*24)
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -26,20 +27,24 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 def get_current_user(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("email")
 
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    email: str = payload.get("email")
-
-    # probably add some code for token expiration
-
-    if email is None:
+        if email is None:
+            delete_token(hash_token(token))
+            return None
+        if (find_token(hash_token(token)))  == None:
+            return None
+        
+    except JWTError:
         delete_token(hash_token(token))
         return None
-    if (find_token(hash_token(token)))  == None:
-        return None
-
     user = get_user(email=email)
     if user is None:
         return None
     
     return user
+
+def create_stream_token():
+    return secrets.token_hex(16)
