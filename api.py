@@ -167,10 +167,156 @@ class StreamTokens(Resource):
 
     
 api.add_resource(Login, "/api/v1/auth/login")
+"""
+Endpoint: /api/v1/auth/login
+Method: GET
+Description: User login endpoint. Authenticates the user and returns an access token.
+Request:
+- Form Data:
+    - email: string (required) - User's email address
+    - password: string (required) - User's password
+Response:
+- Success:
+    - status: string - "success"
+    - token: string - Access token for the authenticated user
+    - token_type: string - "bearer"
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(Signup, "/api/v1/auth/signup")
+"""
+Endpoint: /api/v1/auth/signup
+Method: POST
+Description: User signup endpoint. Creates a new user account and returns an access token.
+Request:
+- Form Data:
+    - email: string (required) - User's email address
+    - password: string (required) - User's password
+    - birthdate: string (required) - User's birthdate
+    - name: string (required) - User's first name
+    - last_name: string (required) - User's last name
+Response:
+- Success:
+    - status: string - "success"
+    - token: string - Access token for the newly created user
+    - token_type: string - "bearer"
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(Refresh, "/api/v1/auth/refresh")
+"""
+Endpoint: /api/v1/auth/refresh
+Method: POST
+Description: Refreshes the access token for the authenticated user.
+Request:
+- Form Data:
+    - token: string (required) - Access token to be refreshed
+Response:
+- Success:
+    - status: string - "success"
+    - token: string - Refreshed access token
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(TokenLogin, "/api/v1/auth/login/token", "/api/v1/user/me")
+"""
+Endpoint: /api/v1/auth/login/token or /api/v1/user/me
+Method: POST
+Description: Authenticates the user using a token and returns user information.
+Request:
+- Form Data:
+    - token: string (required) - Access token for authentication
+Response:
+- Success:
+    - status: string - "success"
+    - message: object - User information
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(Courses, "/api/v1/courses/list")
+"""
+Endpoint: /api/v1/courses/list
+Method: GET
+Description: Retrieves a list of available courses.
+Request: None
+Response:
+- Success:
+    - status: string - "success"
+    - message: list - List of courses
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(Lessons, "/api/v1/courses/lessons")
+"""
+Endpoint: /api/v1/courses/lessons
+Method: GET
+Description: Retrieves a list of lessons for a specific course.
+Request:
+- Form Data:
+    - token: string (required) - Access token for authentication
+    - course_id: string (required) - ID of the course
+Response:
+- Success:
+    - status: string - "success"
+    - message: list - List of lessons
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(Advancments, "/api/v1/user/advancments")
+"""
+Endpoint: /api/v1/user/advancments
+Method: GET
+Description: Retrieves a list of advancements for the authenticated user.
+Request:
+- Form Data:
+    - token: string (required) - Access token for authentication
+    - amount: string (required) - Type of advancements to retrieve ("all", "unlocked", "locked")
+Response:
+- Success:
+    - status: string - "success"
+    - message: list - List of advancements
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
+
 api.add_resource(StreamTokens, "/api/v1/stream/token", "/api/v1/stream/list")
+"""
+Endpoint: /api/v1/stream/token or /api/v1/stream/list
+Method: POST or GET
+Description: Manages stream tokens for a course.
+Request (POST):
+- Form Data:
+    - course_id: string (required) - ID of the course
+    - author_id: string (required) - ID of the author
+Response (POST):
+- Success:
+    - status: string - "success"
+    - message: string - Stream token
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+Request (GET):
+- Form Data:
+    - token: string (required) - Access token for authentication
+    - course_id: string (required) - ID of the course
+Response (GET):
+- Success:
+    - status: string - "success"
+    - message: string - Stream token
+- Failure:
+    - status: string - "failed"
+    - message: string - Error message
+"""
