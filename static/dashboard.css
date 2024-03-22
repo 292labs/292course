@@ -20,3 +20,15 @@
 .right-content {
     width: 75vw;
 }
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+/*.menu-item {*/
+/*    background-color: var(--accent);*/
+/*    color: var(--main);*/
+/*    padding: ;*/
+/*}*/

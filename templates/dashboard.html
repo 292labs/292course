@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block head %}
-    <link href="/dashboard.css" rel="stylesheet">
+    <link href="/static/dashboard.css" rel="stylesheet">
     <link href="/static/player.css" rel="stylesheet">
 {% endblock %}
 
@@ -20,6 +20,7 @@
 {% endblock %}
 
 {% block content %}
+    <script src="/static/js/dashboard.js"></script>
     <main class="panels">
         <div class="left-content">
             <div class="card">
@@ -34,12 +35,17 @@
             <div class="card">
 
             </div>
-            <div class="card">
-
+            <div class="card menu">
+                <span class="button menu-item" id="course-read-menu-item">
+                    <a>Курс</a>
+                </span>
+                <span class="button menu-item" id="stream-menu-item">
+                    <a>Трансляция</a>
+                </span>
             </div>
         </div>
         <div class="right-content">
-            <div class="card">
+            <div class="card" id="course-reader">
                 <div class="card-content">
                     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
                     <div id="md">
@@ -53,7 +59,7 @@
                 </div>
 
             </div>
-            <div class="card">
+            <div class="card" id="stream">
                 <div class="card-content">
                     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
                       <!-- Or if you want a more recent alpha version -->
