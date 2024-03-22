@@ -1,0 +1,143 @@
+@import "colors.css";
+
+body {
+    margin: 0;
+    background-color: var(--main);
+    color: var(--white);
+}
+a {
+    text-decoration: none;
+}
+
+
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Header */
+
+.header-strip {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.button {
+    color: var(--main);
+    background-color: var(--accent);
+    font-style: normal;
+    font-weight: bold;
+    padding: 0.2rem 0.7rem;
+    border-radius: 22px;
+    border: 0;
+}
+
+#login-button {
+    color: var(--main);
+    margin-left: 0.4rem;
+}
+
+.links {
+    display: flex;
+    gap: 0.5rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: Rubik, sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    align-items: center;
+}
+
+.links > a {
+    vertical-align: middle;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 2rem;
+}
+
+.header-promo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: "Fira Mono", monospace;
+    margin: 4rem 1rem;
+}
+
+.header-promo > a {
+    background-color: var(--accent);
+    color: var(--main);
+    padding: 1rem;
+    border-radius: 11px;
+    font-weight: 700;
+    /*margin-bottom: 2.5rem;*/
+}
+
+h2, h3, h4 {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 2rem;
+    font-family: "Fira Mono", monospace;
+}
+
+h1 {
+    font-weight: 500;
+    font-size: 3.5rem;
+    margin: 0;
+}
+
+h1 > b {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+main {
+    font-family: Rubik, sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0 3rem;
+
+}
+
+/* Courses carousel */
+
+.courses-carousel {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1.5rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.card {
+    border: 2px solid var(--accent);
+    border-radius: 22px;
+    padding: 1rem;
+}
+
+.course-card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+}
+
+.course-text {
+    display: flex;
+    flex-direction: row;
+    /*flex-grow: 10;*/
+    counter-increment: gallery-cell;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.course-text > i {
+    text-align: right;
+}
