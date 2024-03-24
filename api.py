@@ -1,4 +1,4 @@
-from __main__ import app
+from main import app
 from flask import request
 from flask_restful import Resource, Api
 from utils.auth import create_access_token, get_current_user, create_stream_token
@@ -71,11 +71,14 @@ class Refresh(Resource):
         return {"status": "success", "token": token}
 
 class TokenLogin(Resource): 
-    def post(self, request_ = None):
+    def post(self, request_ = None, token_ = None):
         if request_ is None: 
             request_ = request
 
-        token = request_.form["token"]
+        try:
+            token = request_.form["token"]
+        except:
+            token = token_
         
         if token is None:
             return {"status": "failed", "message": "Invalid token"}
@@ -137,6 +140,7 @@ class StreamTokens(Resource):
             request_ = request
 
         course = request_.form["course_id"]
+        token = request_.form["token"]
         author = request_.form["author_id"]
         
         user = get_current_user(token)

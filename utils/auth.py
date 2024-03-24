@@ -7,8 +7,8 @@ from jose import JWTError
 from utils.security import hash_token
 from utils.db_handler import save_token, get_user, find_token, delete_token
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
+SECRET_KEY = "our_secret_key"
+ALGORITHM = "HS256"
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     # data {"email": "email"}

@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, make_response
+import requests
+from flask import Flask, render_template, request, make_response, redirect
 
 app = Flask(__name__)
 
 import api
 
+resources = [('0', 'Unity', 'Движок', 'https://nnchan.ru'),
+             ('1', 'NOT Unity', 'Движок', 'https://nnchan.ru'),
+             ('2', 'Also NOT Unity', 'Движок', 'https://nnchan.ru')]
 
 @app.route("/")
 def hello_world():
@@ -18,7 +22,10 @@ def login_page():
         print(response)
         if response["status"] == "success":
             token = response["token"]
-            resp = make_response(render_template("main.html"))
+
+
+
+            resp = make_response(redirect("/dashboard"))
             resp.set_cookie("token", token, secure=True, httponly=True)
             return resp
         else:
@@ -34,7 +41,7 @@ def signup_page():
 
         if response["status"] == "success":
              token = response["token"]
-             resp = make_response(render_template("main.html"))
+             resp = make_response(redirect("/dashboard"))
              resp.set_cookie("token", token, secure=True, httponly=True)
              return resp
         else:
@@ -42,6 +49,16 @@ def signup_page():
 
 
     return render_template("signup.html")
+
+@app.route("/dashboard")
+def dashboard_page():
+
+    token = request.cookies.get('token')
+    user = api.TokenLogin().post(token_=token)
+
+    # print(user)
+
+    return render_template("dashboard.html", resources=resources, user=user['message'])
 
 if __name__ == "__main__":
     app.debug = True

@@ -25,13 +25,14 @@ a:visited {
 }
 
 .button {
-    color: var(--main);
+    color: var(--main) !important;
     background-color: var(--accent);
     font-style: normal;
     font-weight: bold;
     padding: 0.2rem 0.7rem;
     border-radius: 22px;
     border: 0;
+    cursor: pointer;
 }
 
 #login-button {
@@ -52,29 +53,6 @@ a:visited {
 }
 
 .links > a {
-    vertical-align: middle;
-}
-
-/* Header */
-
-.header-strip {
-    display: flex;
-    flex-direction: row;
-
-}
-
-.links {
-    display: flex;
-    gap: 0.5rem;
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-family: Rubik, sans-serif;
-    font-style: italic;
-    font-weight: 300;
-}
-
-.lins > a {
     vertical-align: middle;
 }
 
@@ -107,6 +85,13 @@ h2, h3, h4 {
     font-weight: 700;
     font-size: 2rem;
     font-family: "Fira Mono", monospace;
+}
+
+h5, h6 {
+    color: var(--white);
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin: 0;
 }
 
 h1 {
@@ -163,4 +148,24 @@ main {
 
 .course-text > i {
     text-align: right;
+}
+
+.progress-bar-background {
+    width: 100%;
+    height: 0.6rem;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+}
+
+.progress-bar-foreground {
+    height: inherit;
+    border-radius: inherit;
+    background-color: var(--accent);
+}
+
+.progress-bar-percentage {
+    font-weight: 300;
+    color: var(--subcolor);
+    font-size: 0.9rem;
+    margin: 0;
 }

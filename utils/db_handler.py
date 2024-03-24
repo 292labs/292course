@@ -4,11 +4,11 @@ from utils.security import hash_token
 
 
 conn = psycopg2.connect(
-    dbname=os.getenv("DB_NAME"),
-    # user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASS"),
-    host=os.getenv("DB_HOST"),
-    port=os.getenv("DB_PORT")
+    dbname="292course",
+    user="postgres",
+    password="SoundsLikeShit",
+    host="46.19.68.253",
+    port="5432"
 )
 
 
@@ -32,7 +32,7 @@ def save_token(user_id, token):
     conn.commit()
 
 def get_user(email):
-    cur.execute("""SELECT * FROM "User" """)
+    cur.execute("""SELECT * FROM "User" WHERE email = %s""", [email])
     return cur.fetchone()
 
 def user_exists(email):
