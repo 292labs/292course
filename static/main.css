@@ -2,9 +2,20 @@
 
 body {
     margin: 0;
-    background-color: var(--main);
+    background: rgb(20,25,28);
+    background: linear-gradient(127deg, rgba(20,25,28,1) 0%, rgba(33,53,62,1) 90%);
     color: var(--white);
+    height: 100%;
 }
+
+.parallax {
+    position: relative;
+    perspective: 1px;
+    /*height: 100vh;*/
+    overflow: hidden;
+    overflow-y: auto;
+}
+
 a {
     text-decoration: none;
 }
@@ -37,6 +48,13 @@ a:visited {
 
 #login-button {
     color: var(--main);
+
+    border: 1px solid #DAFF9D;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 10px 7px rgba(172,242,57,0.7);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 10px 7px rgba(172,242,57,0.7);
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 10px 7px rgba(172,242,57,0.7);
+    border-radius: 30px;
+
     margin-left: 0.4rem;
 }
 
@@ -75,7 +93,11 @@ header {
     background-color: var(--accent);
     color: var(--main);
     padding: 1rem;
-    border-radius: 11px;
+    border: 1px solid #DAFF9D;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 20px 7px rgba(172,242,57,1);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 20px 7px rgba(172,242,57,1);
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.6), 0px 0px 20px 7px rgba(172,242,57,1);
+    border-radius: 30px;
     font-weight: 700;
     /*margin-bottom: 2.5rem;*/
 }
@@ -113,6 +135,23 @@ main {
 
 }
 
+.parallax-page {
+    perspective: 1px;
+    /*height: 100vh;*/
+    overflow-y: auto;
+}
+
+.background-layer {
+    position: absolute;
+    inset: 0;
+}
+
+.background-layer > img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* Courses carousel */
 
 .courses-carousel {
@@ -125,8 +164,20 @@ main {
 }
 
 .card {
-    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.23);
+    /*background: rgb(255,255,255);*/
+    background: linear-gradient(60deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+    /*border: 1px solid #5D5D5D;*/
     border-radius: 22px;
+
+    backdrop-filter: blur(8.1px);
+    -webkit-backdrop-filter: blur(8.1px);
+    border: 1px solid rgba(255, 255, 255, 0.23);
+
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+
     padding: 1rem;
 }
 

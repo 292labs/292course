@@ -7,6 +7,17 @@ form {
     margin-top: 1rem;
 }
 
+.form-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.form-card > h1 {
+    font-family: "Fira Mono", monospace;
+}
+
 label {
     display: none;
 }
